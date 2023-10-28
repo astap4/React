@@ -1,17 +1,10 @@
 import './App.css';
+import Search from './components/Search';
 
 function App() {
   return (
     <div>
-      Hello world!
-      <form>
-        <input
-          id="dinosaur_name"
-          name="dinosaur_name"
-          className="dinosaur-input"
-          aria-describedby="dinosaur_name_info"
-        ></input>
-      </form>
+      <Search />
     </div>
   );
 }

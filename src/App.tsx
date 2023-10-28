@@ -1,16 +1,19 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <div>
       Hello world!
+      <form>
+        <input
+          id="dinosaur_name"
+          name="dinosaur_name"
+          className="dinosaur-input"
+          aria-describedby="dinosaur_name_info"
+        ></input>
+      </form>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

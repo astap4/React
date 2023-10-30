@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import Search from './components/Search';
-import People from './components/People';
+import People from './components/People/People';
 import PostService from './API/PostService';
 import Loader from './components/UI/Loader/loader';
 import './styles/app.css';

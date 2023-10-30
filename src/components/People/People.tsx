@@ -5,6 +5,7 @@ import './people.css';
 
 interface PeopleProps {
   people: IHero[];
+  searchItem: string;
 }
 
 export default class People extends React.Component<PeopleProps> {
@@ -13,9 +14,13 @@ export default class People extends React.Component<PeopleProps> {
   }
 
   render() {
+    const { people, searchItem } = this.props;
+    const filteredPeople = people.filter((item) =>
+      item.name.includes(searchItem)
+    );
     return (
       <div className="cards-container">
-        {this.props.people.map((item) => (
+        {filteredPeople.map((item) => (
           <Hero
             key={item.url}
             name={item.name}

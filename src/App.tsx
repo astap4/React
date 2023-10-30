@@ -9,6 +9,7 @@ export default class App extends React.Component {
   state = {
     people: [],
     isDataLoading: false,
+    searchItem: '',
   };
 
   async fetchPeople() {
@@ -26,14 +27,21 @@ export default class App extends React.Component {
     this.fetchPeople();
   }
 
+  setSearchItem = (searchValue: string) => {
+    this.setState({ searchItem: searchValue });
+  };
+
   render() {
     return (
       <div className="app-wrapper">
-        <Search />
+        <Search setSearchItem={this.setSearchItem} />
         {this.state.isDataLoading ? (
           <Loader></Loader>
         ) : (
-          <People people={this.state.people} />
+          <People
+            people={this.state.people}
+            searchItem={this.state.searchItem}
+          />
         )}
       </div>
     );

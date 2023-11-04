@@ -5,6 +5,7 @@ import People from './components/People/People';
 import PostService from './API/PostService';
 import Loader from './components/UI/Loader/loader';
 import './styles/app.css';
+import ErrorBoundary from './components/errorBoundary/ErrorBoundary';
 export default class App extends React.Component {
   state = {
     people: [],
@@ -33,17 +34,19 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div className="app-wrapper">
-        <Search setSearchItem={this.setSearchItem} />
-        {this.state.isDataLoading ? (
-          <Loader></Loader>
-        ) : (
-          <People
-            people={this.state.people}
-            searchItem={this.state.searchItem}
-          />
-        )}
-      </div>
+      <ErrorBoundary>
+        <div className="app-wrapper">
+          <Search setSearchItem={this.setSearchItem} />
+          {this.state.isDataLoading ? (
+            <Loader></Loader>
+          ) : (
+            <People
+              people={this.state.people}
+              searchItem={this.state.searchItem}
+            />
+          )}
+        </div>
+      </ErrorBoundary>
     );
   }
 }

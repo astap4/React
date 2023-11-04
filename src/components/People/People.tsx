@@ -9,10 +9,6 @@ interface PeopleProps {
 }
 
 export default class People extends React.Component<PeopleProps> {
-  constructor(props: PeopleProps) {
-    super(props);
-  }
-
   render() {
     const { people, searchItem } = this.props;
     const filteredPeople = people.filter((item) =>
@@ -21,17 +17,7 @@ export default class People extends React.Component<PeopleProps> {
     return (
       <div className="cards-container">
         {filteredPeople.map((item) => (
-          <Hero
-            key={item.url}
-            name={item.name}
-            height={item.height}
-            mass={item.mass}
-            hair_color={item.hair_color}
-            skin_color={item.skin_color}
-            eye_color={item.eye_color}
-            birth_year={item.birth_year}
-            gender={item.gender}
-          />
+          <Hero key={item.url} {...item} />
         ))}
       </div>
     );

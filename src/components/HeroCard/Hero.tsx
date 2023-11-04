@@ -4,16 +4,27 @@ import './hero.css';
 
 export default class Hero extends React.Component<IHero> {
   render() {
+    const {
+      name,
+      height,
+      mass,
+      hair_color,
+      skin_color,
+      eye_color,
+      birth_year,
+      gender,
+    } = this.props;
+
     return (
       <div className="card">
-        <h3 className="name">{this.props.name}</h3>
-        <div className="characters">Height: {this.props.height}</div>
-        <div className="characters">Mass: {this.props.mass}</div>
-        <div className="characters">Hair color: {this.props.hair_color}</div>
-        <div className="characters">Scin color:{this.props.skin_color}</div>
-        <div className="characters">Eye color:{this.props.eye_color}</div>
-        <div className="characters">Birth year:{this.props.birth_year}</div>
-        <div className="characters">Gender:{this.props.gender}</div>
+        <h3 className="name">{name}</h3>
+        <div className="characters">Height: {height}</div>
+        <div className="characters">Mass: {mass}</div>
+        <div className="characters">Hair color: {hair_color}</div>
+        <div className="characters">Scin color: {skin_color}</div>
+        <div className="characters">Eye color: {eye_color}</div>
+        <div className="characters">Birth year: {birth_year}</div>
+        <div className="characters">Gender: {gender}</div>
       </div>
     );
   }

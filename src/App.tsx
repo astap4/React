@@ -34,19 +34,17 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <ErrorBoundary>
-        <div className="app-wrapper">
-          <Search setSearchItem={this.setSearchItem} />
-          {this.state.isDataLoading ? (
-            <Loader></Loader>
-          ) : (
-            <People
-              people={this.state.people}
-              searchItem={this.state.searchItem}
-            />
-          )}
-        </div>
-      </ErrorBoundary>
+      <div className="app-wrapper">
+        <Search setSearchItem={this.setSearchItem} />
+        {this.state.isDataLoading ? (
+          <Loader></Loader>
+        ) : (
+          <People
+            people={this.state.people}
+            searchItem={this.state.searchItem}
+          />
+        )}
+      </div>
     );
   }
 }

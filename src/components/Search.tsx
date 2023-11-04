@@ -1,44 +1,41 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 interface SearchProps {
   setSearchItem: (searchValue: string) => void;
 }
 
-export default class Search extends React.Component<SearchProps> {
-  state = {
-    searchValue: localStorage.getItem('searchValue') || '',
-    postsList: [],
+export default function Search(props: SearchProps) {
+  const [searchValue, setSearchValue] = useState(
+    localStorage.getItem('searchValue') || ''
+  );
+
+  const handleSearch = () => {
+    localStorage.setItem('searchValue', searchValue);
+    props.setSearchItem(searchValue);
   };
 
-  handleSearch = () => {
-    localStorage.setItem('searchValue', this.state.searchValue);
-    this.props.setSearchItem(this.state.searchValue);
-  };
-
-  componentDidMount() {
+  useEffect(() => {
     const savedSearchValue = localStorage.getItem('searchValue');
     if (savedSearchValue) {
-      this.setState({ searchValue: savedSearchValue });
-      this.props.setSearchItem(this.state.searchValue);
+      setSearchValue(savedSearchValue);
+      props.setSearchItem(searchValue);
     }
-  }
+  }, [props.setSearchItem]);
 
-  handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ searchValue: e.target?.value });
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target?.value);
   };
 
-  render() {
-    return (
-      <div>
-        <form>
-          <input
-            type="text"
-            placeholder="Search..."
-            value={this.state.searchValue}
-            onChange={this.handleInputChange}
-          ></input>
-          <button onClick={this.handleSearch}>Search</button>
-        </form>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <form>
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchValue}
+          onChange={handleInputChange}
+        ></input>
+        <button onClick={handleSearch}>Search</button>
+      </form>
+    </div>
+  );
 }

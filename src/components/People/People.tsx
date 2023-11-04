@@ -8,18 +8,16 @@ interface PeopleProps {
   searchItem: string;
 }
 
-export default class People extends React.Component<PeopleProps> {
-  render() {
-    const { people, searchItem } = this.props;
-    const filteredPeople = people.filter((item) =>
-      item.name.includes(searchItem)
-    );
-    return (
-      <div className="cards-container">
-        {filteredPeople.map((item) => (
-          <Hero key={item.url} {...item} />
-        ))}
-      </div>
-    );
-  }
+export default function People(props: PeopleProps) {
+  const { people, searchItem } = props;
+  const filteredPeople = people.filter((item) =>
+    item.name.includes(searchItem)
+  );
+  return (
+    <div className="cards-container">
+      {filteredPeople.map((item) => (
+        <Hero key={item.url} {...item} />
+      ))}
+    </div>
+  );
 }

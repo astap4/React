@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export async function getProducts(limit: number = 6, page: number = 1) {
+export async function getProducts(limit: number, page: number) {
   const response = await axios.get('https://dummyjson.com/products', {
     headers: {
       Accept: 'application/json',

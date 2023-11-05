@@ -7,13 +7,14 @@ import Loader from './components/UI/Loader/loader';
 import './styles/app.css';
 import Pagination from './components/Pagination/Pagination';
 import { getCountPages } from './utils/countPages';
+import LimitItems from './components/LimitItems/LimitItems';
 
 export default function App() {
   const [products, setProducts] = useState([]);
   const [isDataLoading, setIsDataLoading] = useState(false);
   const [searchItem, setSearchItem] = useState('');
   const [page, setPage] = useState(0);
-  const [limitPages, setLimitPages] = useState(6);
+  const [limitPages, setLimitPages] = useState(10);
   const [totalCount, setTotalCount] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 
@@ -24,6 +25,7 @@ export default function App() {
       setProducts(response.products);
       setTotalCount(response.products.length);
       setTotalPages(getCountPages(totalCount, limitPages));
+      console.log(response);
     } catch (error) {
       console.error('Error fetching posts:', error);
     }
@@ -37,7 +39,13 @@ export default function App() {
 
   return (
     <div className="app-wrapper">
-      <Search setSearchItem={setSearchItem} />
+      <header className="header">
+        <LimitItems
+          limitPages={limitPages}
+          onUpdateLimitPages={setLimitPages}
+        />
+        <Search setSearchItem={setSearchItem} />
+      </header>
       {isDataLoading ? (
         <Loader></Loader>
       ) : (

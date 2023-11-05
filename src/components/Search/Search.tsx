@@ -1,3 +1,4 @@
+import './search.css';
 import React, { useEffect, useState } from 'react';
 interface SearchProps {
   setSearchItem: (searchValue: string) => void;
@@ -26,16 +27,15 @@ export default function Search(props: SearchProps) {
   };
 
   return (
-    <div>
-      <form>
-        <input
-          type="text"
-          placeholder="Search..."
-          value={searchValue}
-          onChange={handleInputChange}
-        ></input>
-        <button onClick={handleSearch}>Search</button>
-      </form>
-    </div>
+    <form className="search-form">
+      <input
+        type="text"
+        placeholder="Search..."
+        value={searchValue}
+        onChange={handleInputChange}
+        className="input-search"
+      ></input>
+      <button onClick={handleSearch}>Search</button>
+    </form>
   );
 }

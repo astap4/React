@@ -1,22 +1,19 @@
 import axios from 'axios';
 
-async function getResponse(url: string) {
-  const response = await axios.get(url, {
+export async function getProducts(limit: number = 6, page: number = 1) {
+  const response = await axios.get('https://dummyjson.com/products', {
     headers: {
       Accept: 'application/json',
+    },
+    params: {
+      _limit: limit,
+      _page: page,
     },
   });
 
   if (response.status !== 200) {
     throw new Error(response.statusText);
   }
-
-  return response;
-}
-
-export async function getProducts() {
-  const BASE_URL = 'https://dummyjson.com';
-  const response = await getResponse(`${BASE_URL}/products?limit=100`);
   const content = response.data;
   return content;
 }

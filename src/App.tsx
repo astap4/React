@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import Search from './components/Search';
-import People from './components/People/People';
-import PostService from './API/PostService';
+import Products from './components/Products/Products';
+import { getProducts } from './API/api';
 import Loader from './components/UI/Loader/loader';
 import './styles/app.css';
 
 export default function App() {
-  const [people, setPeople] = useState([]);
+  const [products, setProducts] = useState([]);
   const [isDataLoading, setIsDataLoading] = useState(false);
   const [searchItem, setSearchItem] = useState('');
 
-  const fetchPeople = async () => {
+  const fetchData = async () => {
     setIsDataLoading(true);
     try {
-      const response = await PostService.getAll();
-      setPeople(response.data.results);
+      const response = await getProducts();
+      setProducts(response.products);
     } catch (error) {
       console.error('Error fetching posts:', error);
     }
@@ -23,7 +23,7 @@ export default function App() {
   };
 
   useEffect(() => {
-    fetchPeople();
+    fetchData();
   }, []);
 
   return (
@@ -32,7 +32,7 @@ export default function App() {
       {isDataLoading ? (
         <Loader></Loader>
       ) : (
-        <People people={people} searchItem={searchItem} />
+        <Products products={products} searchItem={searchItem} />
       )}
     </div>
   );

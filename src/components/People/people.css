@@ -1,0 +1,7 @@
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  grid-auto-columns: auto;
+  gap: 10px;
+  width: 100%;
+}

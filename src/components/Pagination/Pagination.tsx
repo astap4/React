@@ -22,9 +22,6 @@ export default function Pagination({
     }
   };
 
-  console.log('page:', page);
-  console.log('totalPages:', totalPages);
-
   return (
     <div className="pagination-container">
       <button onClick={prevPage} disabled={page === 0}>

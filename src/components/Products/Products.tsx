@@ -4,28 +4,20 @@ import './Products.css';
 
 interface ProductsProps {
   products: IProduct[];
-  searchItem: string;
-  page: number;
-  limitPages: number;
 }
 
 export default function Products(props: ProductsProps) {
-  const { products, searchItem, page, limitPages } = props;
-  const filteredProducts = products.filter((item) =>
-    item.title.toLowerCase().includes(searchItem)
-  );
+  const { products } = props;
+  // const filteredProducts = products.filter((item) =>
+  //   item.title.toLowerCase().includes(searchItem)
+  // );
 
-  const limitededProducts = products.slice(
-    page * limitPages,
-    page * limitPages + limitPages
-  );
-
-  const productsToDisplay =
-    searchItem && filteredProducts ? filteredProducts : limitededProducts;
+  // const productsToDisplay =
+  //   searchItem && filteredProducts ? filteredProducts : products;
 
   return (
     <div className="cards-container">
-      {productsToDisplay.map((item) => (
+      {products.map((item) => (
         <Product key={item.id} {...item} />
       ))}
     </div>

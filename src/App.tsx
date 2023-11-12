@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import Search from './components/Search/Search';
 import Products from './components/Products/Products';
-import { getProducts } from './API/api';
+import { getProducts, getSearchedProducts } from './API/api';
 import Loader from './components/UI/Loader/loader';
 import './styles/app.css';
 import Pagination from './components/Pagination/Pagination';
@@ -16,18 +16,25 @@ export default function App() {
   const [page, setPage] = useState(0);
   const [limitPages, setLimitPages] = useState(10);
   const [totalPages, setTotalPages] = useState(0);
+  // const [queryString, setQueryString] = useState('');
 
   const fetchData = async () => {
     setIsDataLoading(true);
     try {
       const response = await getProducts(limitPages, page);
       setProducts(response.products);
-      console.log('products', products);
-      // const totalCount = response.products.length;
       setTotalPages(getCountPages(limitPages));
-      // console.log('totalCount', totalCount)
-      console.log('limitPages', limitPages);
-      // console.log('getCountPages', getCountPages(totalCount, limitPages))
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+    }
+    setIsDataLoading(false);
+  };
+
+  const fetchSearchedItems = async () => {
+    setIsDataLoading(true);
+    try {
+      const response = await getSearchedProducts(searchItem);
+      setProducts(response.products);
     } catch (error) {
       console.error('Error fetching posts:', error);
     }
@@ -35,8 +42,12 @@ export default function App() {
   };
 
   useEffect(() => {
-    fetchData();
-  }, [page]);
+    if (searchItem !== '') {
+      fetchSearchedItems();
+    } else {
+      fetchData(); // If searchItem is empty, fetch all items
+    }
+  }, [searchItem, page]);
 
   return (
     <div className="app-wrapper">
@@ -55,12 +66,7 @@ export default function App() {
         <Loader></Loader>
       ) : (
         <div>
-          <Products
-            products={products}
-            searchItem={searchItem}
-            page={page}
-            limitPages={limitPages}
-          />
+          <Products products={products} />
           <Pagination page={page} totalPages={totalPages} setPage={setPage} />
         </div>
       )}

@@ -16,7 +16,7 @@ export default function App() {
   const [page, setPage] = useState(0);
   const [limitPages, setLimitPages] = useState(10);
   const [totalPages, setTotalPages] = useState(0);
-  // const [queryString, setQueryString] = useState('');
+
 
   const fetchData = async () => {
     setIsDataLoading(true);

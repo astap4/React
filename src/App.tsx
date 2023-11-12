@@ -5,7 +5,6 @@ import People from './components/People/People';
 import PostService from './API/PostService';
 import Loader from './components/UI/Loader/loader';
 import './styles/app.css';
-import ErrorBoundary from './components/errorBoundary/ErrorBoundary';
 export default class App extends React.Component {
   state = {
     people: [],

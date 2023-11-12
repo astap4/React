@@ -12,7 +12,7 @@ interface ProductsProps {
 export default function Products(props: ProductsProps) {
   const { products, searchItem, page, limitPages } = props;
   const filteredProducts = products.filter((item) =>
-    item.title.includes(searchItem)
+    item.title.toLowerCase().includes(searchItem)
   );
 
   const limitededProducts = products.slice(

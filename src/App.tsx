@@ -15,7 +15,6 @@ export default function App() {
   const [searchItem, setSearchItem] = useState('');
   const [page, setPage] = useState(0);
   const [limitPages, setLimitPages] = useState(10);
-  const [totalCount, setTotalCount] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 
   const fetchData = async () => {
@@ -23,26 +22,32 @@ export default function App() {
     try {
       const response = await getProducts(limitPages, page);
       setProducts(response.products);
-      setTotalCount(response.products.length);
-      setTotalPages(getCountPages(totalCount, limitPages));
-      console.log(response);
+      console.log('products', products);
+      // const totalCount = response.products.length;
+      setTotalPages(getCountPages(limitPages));
+      // console.log('totalCount', totalCount)
+      console.log('limitPages', limitPages);
+      // console.log('getCountPages', getCountPages(totalCount, limitPages))
     } catch (error) {
       console.error('Error fetching posts:', error);
     }
-    setIsDataLoading(isDataLoading);
+    setIsDataLoading(false);
   };
 
   useEffect(() => {
     fetchData();
-    setTotalPages(getCountPages(totalCount, limitPages));
-  }, [page, totalCount, limitPages]);
+  }, [page]);
 
   return (
     <div className="app-wrapper">
       <header className="header">
         <LimitItems
           limitPages={limitPages}
-          onUpdateLimitPages={setLimitPages}
+          onUpdateLimitPages={(newLimitPages) => {
+            setLimitPages(newLimitPages);
+            setPage(0);
+            fetchData();
+          }}
         />
         <Search setSearchItem={setSearchItem} />
       </header>

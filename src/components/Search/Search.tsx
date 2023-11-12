@@ -4,38 +4,47 @@ interface SearchProps {
   setSearchItem: (searchValue: string) => void;
 }
 
-export default function Search(props: SearchProps) {
-  const [searchValue, setSearchValue] = useState(
+export default function Search({ setSearchItem }: SearchProps) {
+  const [inputValue, setInputValue] = useState(
     localStorage.getItem('searchValue') || ''
   );
 
   const handleSearch = () => {
-    localStorage.setItem('searchValue', searchValue);
-    props.setSearchItem(searchValue);
+    localStorage.setItem('inputValue', inputValue);
+    setSearchItem(inputValue);
   };
 
   useEffect(() => {
-    const savedSearchValue = localStorage.getItem('searchValue');
+    const savedSearchValue = localStorage.getItem('inputValue');
     if (savedSearchValue) {
-      setSearchValue(savedSearchValue);
-      props.setSearchItem(searchValue);
+      setInputValue(savedSearchValue);
+      setSearchItem(savedSearchValue);
     }
-  }, [props.setSearchItem]);
+  }, [setSearchItem]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target?.value);
+    const value = e.target?.value.trim().toLowerCase();
+    setInputValue(value || '');
   };
 
   return (
-    <form className="search-form">
+    <form
+      className="search-form"
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSearch();
+      }}
+    >
       <input
         type="text"
         placeholder="Search..."
-        value={searchValue}
+        value={inputValue}
         onChange={handleInputChange}
         className="input-search"
       ></input>
-      <button onClick={handleSearch}>Search</button>
+      <button type="submit" onClick={handleSearch}>
+        Search
+      </button>
     </form>
   );
 }

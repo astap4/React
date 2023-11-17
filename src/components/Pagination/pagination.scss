@@ -1,0 +1,12 @@
+.pages-count {
+  background-color: #f5f5f5;
+  &:hover {
+    border: none;
+    cursor: auto;
+  }
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

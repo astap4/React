@@ -1,0 +1,29 @@
+.detailes-container {
+    width: 100%;
+    background-color: rgb(238, 236, 236);
+    height: 60vh;
+    border: 2px solid rgb(238, 236, 236);
+    border-radius: 10px;
+}
+
+.details-img-wrapper {
+    overflow: hidden;
+    display: flex;
+}
+
+.details-img {
+    width: 100%;
+    height: 350px;
+    object-fit: contain;
+}
+
+.details-descr {
+    display: flex;
+    flex-direction: column;
+    padding: 5%;
+}
+
+.details-title {
+    font-size: 2rem;
+    font-weight: 700;
+}

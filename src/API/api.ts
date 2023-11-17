@@ -33,3 +33,17 @@ export async function getSearchedProducts(searchItem: string) {
   const content = response.data;
   return content;
 }
+
+export async function getProductDetails(id: string) {
+  const response = await axios.get(`https://dummyjson.com/products/${id}`, {
+    headers: {
+      Accept: 'application/json',
+    },
+  });
+
+  if (response.status !== 200) {
+    throw new Error(response.statusText);
+  }
+  const content = response.data;
+  return content;
+}

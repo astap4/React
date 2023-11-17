@@ -18,6 +18,10 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+main {
+  display: flex;
+}
+
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
@@ -39,4 +43,10 @@
 
 .read-the-docs {
   color: #888;
+}
+
+@media screen and (max-width: 500px) {
+  main {
+    display: block;
+  }
 }

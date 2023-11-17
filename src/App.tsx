@@ -9,7 +9,7 @@ import Pagination from './components/Pagination/Pagination';
 import { getCountPages } from './utils/countPages';
 import LimitItems from './components/LimitItems/LimitItems';
 import IProduct from './interfaces/IProduct';
-import { useSearchParams } from 'react-router-dom';
+import { Outlet, useSearchParams } from 'react-router-dom';
 
 export default function App() {
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -72,22 +72,25 @@ export default function App() {
           />
         }
       </header>
-      {isDataLoading ? (
-        <Loader></Loader>
-      ) : (
-        <div>
-          {!isDataLoading && <Products products={products} />}
-          {
-            <Pagination
-              setSearchParams={setSearchParams}
-              page={page}
-              totalPages={totalPages}
-              fetchData={fetchData}
-              setIsDataLoading={setIsDataLoading}
-            />
-          }
-        </div>
-      )}
+      <main>
+        {isDataLoading ? (
+          <Loader />
+        ) : (
+          <div>
+            {!isDataLoading && <Products products={products} />}
+            {
+              <Pagination
+                setSearchParams={setSearchParams}
+                page={page}
+                totalPages={totalPages}
+                fetchData={fetchData}
+                setIsDataLoading={setIsDataLoading}
+              />
+            }
+          </div>
+        )}
+        <Outlet />
+      </main>
     </div>
   );
 }

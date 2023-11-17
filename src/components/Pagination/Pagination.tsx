@@ -1,36 +1,50 @@
+import { useSearchParams } from 'react-router-dom';
 import './pagination.scss';
 interface PaginationProps {
-  page: number;
   totalPages: number;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
+  fetchData: () => void;
+  setIsDataLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function Pagination({
-  page,
   totalPages,
-  setPage,
+  fetchData,
+  setIsDataLoading,
 }: PaginationProps) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = searchParams.get('page') || '1';
+  const pageNum = Number(page);
+
   const prevPage = () => {
-    if (page > 0) {
-      setPage(page - 1);
+    if (pageNum > 1) {
+      setSearchParams((params) => {
+        params.set('page', (pageNum - 1).toString());
+
+        return params;
+      });
+      fetchData();
+      setIsDataLoading(false);
     }
   };
 
   const nextPage = () => {
-    if (page < totalPages - 1) {
-      setPage(page + 1);
+    if (pageNum <= totalPages - 1) {
+      setSearchParams((params) => {
+        console.log('params', params);
+        params.set('page', (pageNum + 1).toString());
+        return params;
+      });
+      fetchData();
+      setIsDataLoading(false);
     }
   };
 
   return (
     <div className="pagination-container">
-      <button onClick={prevPage} disabled={page === 0}>
-        &lt;
-      </button>
-      <button className="pages-count">{page + 1}</button>
-      <button onClick={nextPage} disabled={page === totalPages - 1}>
-        &gt;
-      </button>
+      <button onClick={prevPage}>&lt;</button>
+      <button className="pages-count">{pageNum}</button>
+      <button onClick={nextPage}>&gt;</button>
+      <div></div>
     </div>
   );
 }

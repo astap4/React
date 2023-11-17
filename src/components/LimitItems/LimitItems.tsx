@@ -1,23 +1,39 @@
-import { useState } from 'react';
+import { SetURLSearchParams } from 'react-router-dom';
 import './limitItems.css';
-
+import { useEffect, useState } from 'react';
 interface LimitProps {
-  limitPages: number;
-  onUpdateLimitPages: (newLimitPages: number) => void;
+  setSearchParams: SetURLSearchParams;
+  fetchData: () => void;
+  setIsDataLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function LimitItems({
-  limitPages,
-  onUpdateLimitPages,
+  setSearchParams,
+  fetchData,
+  setIsDataLoading,
 }: LimitProps) {
-  const [newLimitPages, setNewLimitPages] = useState(limitPages);
+  const [inputLimit, setInputLimit] = useState<string>('');
+
+  useEffect(() => {
+    const savedLimitPage = localStorage.getItem('limitPage');
+    if (savedLimitPage) {
+      setInputLimit(savedLimitPage);
+    }
+  }, []);
 
   const handleLimitChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewLimitPages(Number(event.target.value));
+    if (Number(event.target.value) <= 0) return;
+    setInputLimit(event.target.value);
   };
 
   const applyLimit = () => {
-    onUpdateLimitPages(newLimitPages);
+    localStorage.setItem('limitPage', inputLimit);
+    setSearchParams({
+      page: '1',
+      limitPage: inputLimit,
+    });
+    fetchData();
+    setIsDataLoading(false);
   };
 
   return (
@@ -25,7 +41,7 @@ export default function LimitItems({
       <span>Page limit</span>
       <input
         type="number"
-        value={newLimitPages}
+        value={inputLimit}
         onChange={handleLimitChange}
         className="limit-input"
       />

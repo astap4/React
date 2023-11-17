@@ -8,7 +8,7 @@ interface ProductsProps {
 
 export default function Products(props: ProductsProps) {
   const { products } = props;
-
+  console.log(products);
   return (
     <div className="cards-container">
       {products.map((item) => (

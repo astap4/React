@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import './App.css';
 import Search from './components/Search/Search';
 import Products from './components/Products/Products';
@@ -8,65 +8,82 @@ import './styles/app.css';
 import Pagination from './components/Pagination/Pagination';
 import { getCountPages } from './utils/countPages';
 import LimitItems from './components/LimitItems/LimitItems';
+import IProduct from './interfaces/IProduct';
+import { useSearchParams } from 'react-router-dom';
 
 export default function App() {
-  const [products, setProducts] = useState([]);
-  const [isDataLoading, setIsDataLoading] = useState(false);
-  const [searchItem, setSearchItem] = useState('');
-  const [page, setPage] = useState(0);
-  const [limitPages, setLimitPages] = useState(10);
-  const [totalPages, setTotalPages] = useState(0);
+  const [products, setProducts] = useState<IProduct[]>([]);
+  const [isDataLoading, setIsDataLoading] = useState<boolean>(false);
+  const [searchItem, setSearchItem] = useState<string>('');
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const fetchData = async () => {
-    setIsDataLoading(true);
-    try {
-      const response = await getProducts(limitPages, page);
-      setProducts(response.products);
-      setTotalPages(getCountPages(limitPages));
-    } catch (error) {
-      console.error('Error fetching posts:', error);
-    }
-    setIsDataLoading(false);
-  };
+  const page = searchParams.get('page') || '1';
+  const limitPage = searchParams.get('limitPage') || '6';
 
-  const fetchSearchedItems = async () => {
+  const fetchData = useCallback(() => {
     setIsDataLoading(true);
-    try {
-      const response = await getSearchedProducts(searchItem);
-      setProducts(response.products);
-    } catch (error) {
-      console.error('Error fetching posts:', error);
-    }
-    setIsDataLoading(false);
-  };
+    getProducts(Number(limitPage), Number(page))
+      .then((response) => {
+        setProducts(response.products);
+        setTotalPages(getCountPages(Number(limitPage)));
+      })
+      .catch((error) => {
+        console.error('Error fetching posts:', error);
+      })
+      .finally(() => {
+        setIsDataLoading(false);
+      });
+  }, [page, limitPage]);
 
   useEffect(() => {
-    if (searchItem !== '') {
-      fetchSearchedItems();
-    } else {
-      fetchData(); // If searchItem is empty, fetch all items
-    }
-  }, [searchItem, page]);
+    fetchData();
+  }, [fetchData]);
+
+  const fetchSearchedItems = () => {
+    setIsDataLoading(true);
+    getSearchedProducts(searchItem)
+      .then((response) => {
+        setProducts(response.products);
+      })
+      .catch((error) => {
+        console.error('Error fetching posts:', error);
+      })
+      .finally(() => {
+        setIsDataLoading(false);
+      });
+  };
 
   return (
     <div className="app-wrapper">
       <header className="header">
-        <LimitItems
-          limitPages={limitPages}
-          onUpdateLimitPages={(newLimitPages) => {
-            setLimitPages(newLimitPages);
-            setPage(0);
-            fetchData();
-          }}
-        />
-        <Search setSearchItem={setSearchItem} />
+        {
+          <LimitItems
+            setSearchParams={setSearchParams}
+            fetchData={fetchData}
+            setIsDataLoading={setIsDataLoading}
+          />
+        }
+        {
+          <Search
+            setSearchItem={setSearchItem}
+            fetchSearchedItems={fetchSearchedItems}
+            fetchData={fetchData}
+          />
+        }
       </header>
       {isDataLoading ? (
         <Loader></Loader>
       ) : (
         <div>
-          <Products products={products} />
-          <Pagination page={page} totalPages={totalPages} setPage={setPage} />
+          {!isDataLoading && <Products products={products} />}
+          {
+            <Pagination
+              totalPages={totalPages}
+              fetchData={fetchData}
+              setIsDataLoading={setIsDataLoading}
+            />
+          }
         </div>
       )}
     </div>

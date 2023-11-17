@@ -2,9 +2,15 @@ import './search.css';
 import React, { useEffect, useState } from 'react';
 interface SearchProps {
   setSearchItem: (searchValue: string) => void;
+  fetchSearchedItems: () => void;
+  fetchData: () => void;
 }
 
-export default function Search({ setSearchItem }: SearchProps) {
+export default function Search({
+  setSearchItem,
+  fetchSearchedItems,
+  fetchData,
+}: SearchProps) {
   const [inputValue, setInputValue] = useState(
     localStorage.getItem('searchValue') || ''
   );
@@ -12,6 +18,7 @@ export default function Search({ setSearchItem }: SearchProps) {
   const handleSearch = () => {
     localStorage.setItem('inputValue', inputValue);
     setSearchItem(inputValue);
+    !inputValue ? fetchData() : fetchSearchedItems();
   };
 
   useEffect(() => {

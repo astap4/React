@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export async function getProducts(limit: number, page: number) {
   const response = await axios.get(
-    `https://dummyjson.com/products?skip=${page * limit}&limit=${limit}`,
+    `https://dummyjson.com/products?skip=${(page - 1) * limit}&limit=${limit}`,
     {
       headers: {
         Accept: 'application/json',

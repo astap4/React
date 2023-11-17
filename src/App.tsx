@@ -79,6 +79,8 @@ export default function App() {
           {!isDataLoading && <Products products={products} />}
           {
             <Pagination
+              setSearchParams={setSearchParams}
+              page={page}
               totalPages={totalPages}
               fetchData={fetchData}
               setIsDataLoading={setIsDataLoading}

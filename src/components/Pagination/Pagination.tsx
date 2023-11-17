@@ -1,18 +1,20 @@
-import { useSearchParams } from 'react-router-dom';
+import { SetURLSearchParams } from 'react-router-dom';
 import './pagination.scss';
 interface PaginationProps {
+  setSearchParams: SetURLSearchParams;
+  page: string;
   totalPages: number;
   fetchData: () => void;
   setIsDataLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function Pagination({
+  setSearchParams,
+  page,
   totalPages,
   fetchData,
   setIsDataLoading,
 }: PaginationProps) {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const page = searchParams.get('page') || '1';
   const pageNum = Number(page);
 
   const prevPage = () => {
